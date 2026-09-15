@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday, My Superhero! 🕷️🕸️</title>
+  
+  <!-- Google Fonts: Comic & Cinematic Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bebas+Neue&family=Outfit:wght@300;400;600;700;900&family=Permanent+Marker&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+  
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+<body class="spidey-body">
+
+  <!-- Interactive Web-Shooting Canvas Overlay -->
+  <canvas id="webCanvas"></canvas>
+
+  <!-- Ambient Sound & Web Controls -->
+  <div class="hud-controls" aria-label="Audio and HUD controls">
+    <button id="soundToggleBtn" class="hud-btn" title="Toggle Sound FX" aria-label="Toggle Sound">
+      <span class="hud-icon">🔊</span>
+      <span class="hud-label">AUDIO: ON</span>
+    </button>
+    <button id="webShooterModeBtn" class="hud-btn active" title="Click anywhere to shoot webs!" aria-label="Web Shooter Mode">
+      <span class="hud-icon">🕸️</span>
+      <span class="hud-label">WEB SHOOTER: ON</span>
+    </button>
+    <button id="musicToggleBtn" class="hud-btn" title="Toggle Heroic BGM" aria-label="Toggle Music">
+      <span class="hud-icon">🎵</span>
+      <span class="hud-label">THEME BGM</span>
+    </button>
+  </div>
+
+  <!-- 1. ENTRANCE GATE: SPIDER-SENSE SEQUENCE -->
+  <div id="entranceModal" class="entrance-overlay active">
+    <div class="spider-sense-radar">
+      <div class="radar-wave wave-1"></div>
+      <div class="radar-wave wave-2"></div>
+      <div class="radar-wave wave-3"></div>
+      <div class="spidey-sense-lightning">
+        <span>⚡</span><span>⚡</span><span>⚡</span>
+      </div>
+    </div>
+
+    <div class="entrance-card">
+      <div class="comic-badge-top">MARVEL STUDIOS SPECIAL PRESENTATION</div>
+      <div class="spidey-logo-emblem">
+        <svg viewBox="0 0 100 100" class="spider-svg" aria-hidden="true">
+          <ellipse cx="50" cy="50" rx="12" ry="20" fill="#e23636" stroke="#ffffff" stroke-width="2" />
+          <circle cx="50" cy="30" r="8" fill="#e23636" stroke="#ffffff" stroke-width="2" />
+          <!-- Spider legs -->
+          <path d="M 44 40 C 25 35 15 20 8 10" stroke="#e23636" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M 56 40 C 75 35 85 20 92 10" stroke="#e23636" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M 42 48 C 20 48 10 35 5 28" stroke="#e23636" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M 58 48 C 80 48 90 35 95 28" stroke="#e23636" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M 42 56 C 20 62 12 75 6 88" stroke="#e23636" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M 58 56 C 80 62 88 75 94 88" stroke="#e23636" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M 44 65 C 30 75 22 88 18 96" stroke="#e23636" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M 56 65 C 70 75 78 88 82 96" stroke="#e23636" stroke-width="4" stroke-linecap="round" fill="none"/>
+        </svg>
+      </div>
+
+      <h1 class="entrance-title">SPIDER-SENSE<br><span class="highlight-yellow">TINGLING!</span></h1>
+      <p class="entrance-desc">
+        A high-priority superhero celebration has been detected in Queens.<br>
+        <strong>Target:</strong> The most handsome, incredible boyfriend in the Multiverse.
+      </p>
+
+      <button id="enterSiteBtn" class="spidey-primary-btn glow-pulse">
+        <span class="btn-text">ACTIVATE SUIT & SWING IN 🕸️</span>
+        <span class="btn-subtext">CLICK TO INITIALIZE CELEBRATION</span>
+      </button>
+
+      <div class="entrance-footnote">
+        <span>⚠️ WARNING: Contains 100% pure love, cuddles & superhero devotion.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main id="mainApp" class="main-content">
+
+    <!-- DAILY BUGLE TICKER -->
+    <div class="news-ticker-wrap">
+      <div class="ticker-badge">DAILY BUGLE FLASH</div>
+      <div class="ticker-content">
+        <div class="ticker-track">
+          <span>🚨 BREAKING: NEW YORK'S FINEST SUPERHERO TURNS ANOTHER YEAR OLDER TODAY!</span>
+          <span>🕸️ TOP SCIENTISTS CONFIRM: HE IS 1000% THE CUTEST, COOLEST BOYFRIEND IN EVERY TIMELINE!</span>
+          <span>🎂 DAILY BUGLE EXCLUSIVE: J. JONAH JAMESON ORDERS DOUBLE CHOCOLATE CAKE FOR THE HERO!</span>
+          <span>💖 MESSAGE FROM HQ: "I LOVE YOU MORE THAN ALL 3 SPIDER-MEN COMBINED!"</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. HERO BILLBOARD SECTION -->
+    <section class="hero-section section-padding">
+      <div class="container hero-container">
+        
+        <div class="hero-text-col">
+          <div class="comic-pill">ISSUE #SPECIAL • BIRTHDAY EDITION</div>
+          <h1 class="hero-headline">
+            HAPPY BIRTHDAY TO MY <span class="comic-gradient-text">SUPERHERO!</span>
+          </h1>
+          <p class="hero-tagline">
+            "In every single universe, across every timeline and dimension... I would still choose you as my hero."
+          </p>
+
+          <!-- Superhero Stats HUD -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-name">Super Strength</span>
+                <span class="stat-val">999+</span>
+              </div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 100%;"></div></div>
+              <div class="stat-note">Effortlessly carries my whole heart</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-name">Cuteness Rating</span>
+                <span class="stat-val">OVER 9000</span>
+              </div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 100%;"></div></div>
+              <div class="stat-note">Dangerously charming smile</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-name">Spider-Sense</span>
+                <span class="stat-val">MAX</span>
+              </div>
+              <div class="stat-bar"><div class="stat-fill" style="width: 98%;"></div></div>
+              <div class="stat-note">Always knows exactly when I need a hug</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <span class="stat-name">My Love For You</span>
+                <span class="stat-val">∞ INFINITE</span>
+              </div>
+              <div class="stat-bar"><div class="stat-fill stat-rainbow" style="width: 100%;"></div></div>
+              <div class="stat-note">Reaches beyond the entire Marvel Multiverse</div>
+            </div>
+          </div>
+
+          <div class="hero-actions">
+            <a href="#wishCakeSection" class="spidey-primary-btn">
+              <span>MAKE A BIRTHDAY WISH 🎂</span>
+            </a>
+            <a href="#miniGameSection" class="spidey-secondary-btn">
+              <span>TEST WEB SHOOTER 🎯</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 3D Tilt Poster Card -->
+        <div class="hero-poster-col">
+          <div class="poster-card-wrapper" id="posterTiltCard">
+            <div class="poster-inner">
+              <div class="poster-badge-corner">SPIDER-MAN 4</div>
+              <img 
+                src="assets/images/spiderman-poster.jpg" 
+                alt="Spider-Man 4 Birthday Movie Poster" 
+                class="hero-poster-img"
+                id="heroPosterImg"
+              />
+              <div class="poster-overlay-gradient"></div>
+              <div class="poster-caption-tag">
+                <span class="cinema-release">NOW PLAYING: CHAPTER ANOTHER YEAR OLDER</span>
+                <h3 class="poster-hero-name">STARRING MY FAVORITE PERSON</h3>
+              </div>
+            </div>
+            <div class="web-corner top-left"></div>
+            <div class="web-corner bottom-right"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 3. DAILY BUGLE NEWSPAPER SECTION -->
+    <section class="bugle-section section-padding">
+      <div class="container">
+        
+        <div class="newspaper-container">
+          <div class="newspaper-header">
+            <div class="bugle-top-meta">
+              <span>THE DAILY BUGLE • SPECIAL EVENING EDITION</span>
+              <span>PRICE: ONE BIRTHDAY HUG</span>
+              <span>VOL. XXIV NO. 1</span>
+            </div>
+            <div class="bugle-masthead">
+              <span class="bugle-sub-mast">NEW YORK'S GREATEST NEWSPAPER</span>
+              <h2 class="bugle-title">THE DAILY BUGLE</h2>
+            </div>
+            <div class="newspaper-divider-double"></div>
+          </div>
+
+          <div class="newspaper-headline-block">
+            <h3 class="newspaper-banner-headline">
+              QUEENS CELEBRATES! LOCAL HERO TURNS ANOTHER YEAR MORE INCREDIBLE!
+            </h3>
+            <p class="newspaper-subhead">
+              Spider-Man spotted receiving endless love, birthday kisses, and unlimited pizza slices from his number one admirer.
+            </p>
+          </div>
+
+          <div class="newspaper-columns">
+            <div class="news-col left-col">
+              <h4>J. JONAH JAMESON DECLARES:</h4>
+              <blockquote class="jameson-quote">
+                "Listen up, New York! I've spent years calling him a vigilante, but today? The kid has outdone himself. He's been saving moods, making someone laugh non-stop, and looking ridiculously handsome doing it! Someone send this guy the biggest birthday cake in Queens immediately!"
+              </blockquote>
+              <div class="col-divider"></div>
+              <h4>HEROIC FACT SHEET</h4>
+              <ul class="fact-list">
+                <li>🕷️ <strong>Signature Move:</strong> Making my heart race every time he smiles.</li>
+                <li>🎯 <strong>Kryptonite/Weakness:</strong> Delicious food, comfy naps, and my hugs.</li>
+                <li>🍕 <strong>Emergency Protocol:</strong> Pizza date whenever requested.</li>
+                <li>🏆 <strong>Official Award:</strong> Greatest Boyfriend of All Time.</li>
+              </ul>
+            </div>
+
+            <div class="news-col center-col">
+              <div class="comic-panel-box">
+                <div class="comic-photo-frame">
+                  <img src="assets/images/spiderman-poster.jpg" alt="Hero in Action" class="bugle-inline-img" />
+                  <div class="photo-caption">Fig 1.1: The City's Defender looking majestic as always.</div>
+                </div>
+                <div class="speech-bubble">
+                  "Happy Birthday! You make every single day feel like an epic adventure."
+                </div>
+              </div>
+            </div>
+
+            <div class="news-col right-col">
+              <h4>SPECIAL EDITORIAL</h4>
+              <p>
+                Witnesses report that being around you brings pure sunshine, contagious laughter, and an unshakable feeling of warmth.
+              </p>
+              <p>
+                From late-night talks to shared inside jokes, you have proven that not all heroes wear capes—some wear cozy hoodies, tell hilarious jokes, and love with their whole heart.
+              </p>
+              <div class="stark-memo">
+                <strong>STARK INDUSTRIES MEMORANDUM:</strong>
+                <p>"Suit upgrades approved for his birthday. All birthday coupons valid 365 days across the Multiverse."</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. "THE MULTIVERSE OF US" - 3 SPIDER-MEN MEME & MEMORIES -->
+    <section class="multiverse-section section-padding">
+      <div class="container">
+        
+        <div class="section-title-wrap">
+          <div class="comic-pill red-pill">ACROSS THE SPIDER-VERSE</div>
+          <h2 class="section-heading">THE MULTIVERSE OF US</h2>
+          <p class="section-subheading">
+            When all 3 Spider-Men meet, they can only agree on one universal truth:
+          </p>
+        </div>
+
+        <!-- Interactive 3-Spider-Men Pointing Meme Feature -->
+        <div class="meme-interactive-container">
+          <div class="meme-image-wrapper">
+            <img 
+              src="assets/images/spiderman-pointing.jpg" 
+              alt="3 Spider-Men Pointing Meme" 
+              class="meme-main-img"
+              id="memeImg"
+            />
+            
+            <!-- Interactive Clickable Hotspots for the 3 Spideys -->
+            <button class="spidey-hotspot spot-left" data-spidey="holland" title="Tom Holland Spider-Man" aria-label="Holland Spider-Man">
+              <span class="hotspot-pulse"></span>
+              <span class="hotspot-badge">1</span>
+            </button>
+
+            <button class="spidey-hotspot spot-center" data-spidey="garfield" title="Andrew Garfield Spider-Man" aria-label="Garfield Spider-Man">
+              <span class="hotspot-pulse"></span>
+              <span class="hotspot-badge">2</span>
+            </button>
+
+            <button class="spidey-hotspot spot-right" data-spidey="maguire" title="Tobey Maguire Spider-Man" aria-label="Maguire Spider-Man">
+              <span class="hotspot-pulse"></span>
+              <span class="hotspot-badge">3</span>
+            </button>
+
+            <!-- Dynamic Speech Bubble Overlay -->
+            <div id="memeSpeechBubble" class="meme-speech-bubble visible">
+              <span class="bubble-speaker">TOBEY, ANDREW & TOM:</span>
+              <p class="bubble-text">"Wait... You're the one dating the luckiest girl in the world?!"</p>
+              <span class="bubble-hint">(Tap any Spider-Man 1, 2, or 3 to hear what each variant says!)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Polaroid Memory Cards with Web Corner Pins -->
+        <div class="memories-header-wrap">
+          <h3 class="memories-title">SNAPSHOTS FROM OUR TIMELINE</h3>
+          <p class="memories-subtitle">Click any memory card for the superhero breakdown!</p>
+        </div>
+
+        <div class="polaroid-grid" id="polaroidGrid">
+          <div class="polaroid-card tilt-left" data-id="1" data-title="Day We First Met" data-caption="The very moment our paths crossed, my Spider-Sense knew right away that my world would never be the same." data-date="Earth-616 • The Beginning">
+            <div class="polaroid-pin">🕸️</div>
+            <div class="polaroid-img-box">
+              <img src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=800&q=80" alt="Memory 1" />
+              <span class="comic-sticker sticker-pow">POW!</span>
+            </div>
+            <div class="polaroid-caption">
+              <h4>Day We First Met</h4>
+              <p>"My Spider-Sense went off the second you smiled at me."</p>
+              <span class="polaroid-date">Earth-616 • The Beginning</span>
+            </div>
+          </div>
+
+          <div class="polaroid-card tilt-right" data-id="2" data-title="Late Night Adventures" data-caption="Swinging through life's highs and lows is infinitely more exciting with you right by my side." data-date="Queens Skyline • Unstoppable">
+            <div class="polaroid-pin">🕸️</div>
+            <div class="polaroid-img-box">
+              <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80" alt="Memory 2" />
+              <span class="comic-sticker sticker-thwip">THWIP!</span>
+            </div>
+            <div class="polaroid-caption">
+              <h4>Late Night Adventures</h4>
+              <p>"Swinging through life is 1000x better with you beside me."</p>
+              <span class="polaroid-date">Queens Skyline • Unstoppable</span>
+            </div>
+          </div>
+
+          <div class="polaroid-card tilt-left" data-id="3" data-title="Laughing Until We Cry" data-caption="Even J. Jonah Jameson couldn't stop your infectious, heartwarming laughter that fills every room." data-date="Every Date • Pure Joy">
+            <div class="polaroid-pin">🕸️</div>
+            <div class="polaroid-img-box">
+              <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=800&q=80" alt="Memory 3" />
+              <span class="comic-sticker sticker-bam">BAM!</span>
+            </div>
+            <div class="polaroid-caption">
+              <h4>Laughing Until It Hurts</h4>
+              <p>"Even J. Jonah Jameson couldn't stop your infectious laugh."</p>
+              <span class="polaroid-date">Every Date • Pure Joy</span>
+            </div>
+          </div>
+
+          <div class="polaroid-card tilt-right" data-id="4" data-title="My Safe Harbor" data-caption="In a chaotic universe, you are my calm, my peace, and the person I always want to come home to." data-date="Every Universe • Always">
+            <div class="polaroid-pin">🕸️</div>
+            <div class="polaroid-img-box">
+              <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Memory 4" />
+              <span class="comic-sticker sticker-love">HERO!</span>
+            </div>
+            <div class="polaroid-caption">
+              <h4>My Safe Harbor</h4>
+              <p>"You're the peace I come home to after every busy day."</p>
+              <span class="polaroid-date">Every Universe • Always</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 5. SPIDER-TRAINING TARGET MINI-GAME -->
+    <section id="miniGameSection" class="game-section section-padding">
+      <div class="container">
+        
+        <div class="game-card-wrapper">
+          <div class="game-hud-top">
+            <div class="game-title-group">
+              <div class="comic-pill yellow-pill">STARK TECH TRAINING LAB</div>
+              <h2 class="game-headline">WEB-SHOOTER TARGET PRACTICE</h2>
+              <p>Shoot webs at floating targets to unlock exclusive Birthday Perks & Coupons!</p>
+            </div>
+            <div class="game-score-display">
+              <div class="score-item">
+                <span class="score-label">TARGETS CAUGHT:</span>
+                <span id="gameScore" class="score-num">0</span> / 4
+              </div>
+              <div class="score-item">
+                <span class="score-label">ACCURACY:</span>
+                <span class="score-num">100%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sky Stage for Floating Targets -->
+          <div class="sky-game-stage" id="gameSkyStage">
+            <div class="sky-stars"></div>
+            <div class="nyc-skyline-silhouette"></div>
+
+            <!-- Target 1: Balloon -->
+            <div class="game-target target-balloon" data-perk="movie" style="left: 15%; top: 25%;">
+              <div class="target-sprite">🎈</div>
+              <span class="target-label">Catch me!</span>
+            </div>
+
+            <!-- Target 2: Pumpkin Bomb -->
+            <div class="game-target target-pumpkin" data-perk="massage" style="left: 42%; top: 15%;">
+              <div class="target-sprite">🎃</div>
+              <span class="target-label">Defuse bomb!</span>
+            </div>
+
+            <!-- Target 3: Pizza -->
+            <div class="game-target target-pizza" data-perk="pizza" style="left: 68%; top: 30%;">
+              <div class="target-sprite">🍕</div>
+              <span class="target-label">Peter's Pizza!</span>
+            </div>
+
+            <!-- Target 4: Gift Box -->
+            <div class="game-target target-gift" data-perk="wish" style="left: 85%; top: 18%;">
+              <div class="target-sprite">🎁</div>
+              <span class="target-label">Hero Mystery!</span>
+            </div>
+
+            <div class="game-instruction-banner">
+              <span>🎯 CLICK OR TAP ANY FLOATING TARGET TO SHOOT A WEB AND UNLOCK YOUR PERK!</span>
+            </div>
+          </div>
+
+          <!-- Unlocked Coupons Vault -->
+          <div class="unlocked-coupons-wrap">
+            <h3 class="coupons-title">YOUR UNLOCKED BIRTHDAY REWARDS</h3>
+            <div class="coupons-grid" id="couponsGrid">
+              <div class="coupon-card locked" id="coupon-movie">
+                <div class="coupon-badge">COUPON #01</div>
+                <div class="coupon-icon">🍿</div>
+                <div class="coupon-content">
+                  <h4>VIP Marvel Movie Night</h4>
+                  <p>Valid for: Your choice of movie, endless popcorn, cozy cuddles, and zero complaints from me!</p>
+                  <span class="coupon-status">LOCKED - SHOOT 🎈 TO CLAIM</span>
+                </div>
+              </div>
+
+              <div class="coupon-card locked" id="coupon-massage">
+                <div class="coupon-badge">COUPON #02</div>
+                <div class="coupon-icon">💆</div>
+                <div class="coupon-content">
+                  <h4>Spider-Sense Relief Massage</h4>
+                  <p>Valid for: 30-minute stress-relieving neck, back & shoulder rub after a long superhero day.</p>
+                  <span class="coupon-status">LOCKED - SHOOT 🎃 TO CLAIM</span>
+                </div>
+              </div>
+
+              <div class="coupon-card locked" id="coupon-pizza">
+                <div class="coupon-badge">COUPON #03</div>
+                <div class="coupon-icon">🍕</div>
+                <div class="coupon-content">
+                  <h4>"Pizza Time!" Feast Pass</h4>
+                  <p>Valid for: Your favorite pizza on demand, warm and loaded with all your favorite toppings.</p>
+                  <span class="coupon-status">LOCKED - SHOOT 🍕 TO CLAIM</span>
+                </div>
+              </div>
+
+              <div class="coupon-card locked" id="coupon-wish">
+                <div class="coupon-badge">COUPON #04</div>
+                <div class="coupon-icon">⭐</div>
+                <div class="coupon-content">
+                  <h4>The Multiverse Wildcard Pass</h4>
+                  <p>Valid for: One absolute wish of your choice, no questions asked. Redeemable anytime forever!</p>
+                  <span class="coupon-status">LOCKED - SHOOT 🎁 TO CLAIM</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 6. PETER PARKER'S SECRET LOVE NOTEBOOK -->
+    <section class="letter-section section-padding">
+      <div class="container">
+        
+        <div class="letter-binder">
+          <div class="letter-binder-rings">
+            <span></span><span></span><span></span><span></span><span></span>
+          </div>
+
+          <div class="letter-paper">
+            <div class="letter-watermark">🕷️</div>
+            
+            <div class="letter-header">
+              <span class="letter-tag">SECRET FILE // CONFIDENTIAL FOR MY HERO ONLY</span>
+              <span class="letter-date">QUEENS, NY • SPECIAL EDITION</span>
+            </div>
+
+            <div class="letter-body">
+              <h2 class="letter-salutation">To My Real-Life Peter Parker,</h2>
+
+              <p class="letter-p">
+                Uncle Ben famously said, <em>"With great power comes great responsibility."</em> But every time I look at you, I realize something even truer: <strong>with great love comes endless joy, comfort, and unconditional devotion.</strong>
+              </p>
+
+              <p class="letter-p">
+                You might not be leaping off skyscrapers or dodging pumpkin bombs in spandex, but to me, you are every bit as heroic. The way you work hard, the way you look out for the people you care about, the gentle patience you give me when I'm tired or stressed, and the way you can instantly make me laugh when I least expect it—that is real superpower.
+              </p>
+
+              <p class="letter-p">
+                Thank you for being my anchor, my partner-in-crime, my favorite player two, and the safest place in this whole chaotic world for me to land. No matter what city we're in or what challenges swing our way, I'm right here in your corner cheering you on.
+              </p>
+
+              <p class="letter-p">
+                I hope this new chapter of your life is filled with triumphant wins, wild adventures, lots of good laughs, delicious food, and every single dream coming true.
+              </p>
+
+              <div class="letter-signoff">
+                <p class="signoff-closing">Happy Birthday, my favorite superhero.</p>
+                <p class="signoff-signature">Forever Your Mary Jane & Number One Fan ❤️</p>
+                <div class="spider-kiss">💋 🕸️</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 7. "MAKE A SPIDER-WISH" CAKE & CANDLE CEREMONY -->
+    <section id="wishCakeSection" class="cake-section section-padding">
+      <div class="container cake-container">
+        
+        <div class="section-title-wrap">
+          <div class="comic-pill yellow-pill">BIRTHDAY CEREMONY</div>
+          <h2 class="section-heading">MAKE A SPIDER-WISH</h2>
+          <p class="section-subheading">
+            Close your eyes, make a wish that spans across the Multiverse, and blow out the candles!
+          </p>
+        </div>
+
+        <div class="cake-interactive-stage">
+          
+          <!-- Realistic Spider-Man Birthday Cake -->
+          <div class="spidey-cake-wrap" id="cakeWrap">
+            <!-- Candles on Cake -->
+            <div class="cake-candles-row">
+              <div class="candle" data-candle="1">
+                <div class="flame active" id="flame1"></div>
+                <div class="smoke" id="smoke1"></div>
+                <div class="wick"></div>
+                <div class="candle-stick red-candle"></div>
+              </div>
+              <div class="candle" data-candle="2">
+                <div class="flame active" id="flame2"></div>
+                <div class="smoke" id="smoke2"></div>
+                <div class="wick"></div>
+                <div class="candle-stick blue-candle"></div>
+              </div>
+              <div class="candle" data-candle="3">
+                <div class="flame active" id="flame3"></div>
+                <div class="smoke" id="smoke3"></div>
+                <div class="wick"></div>
+                <div class="candle-stick gold-candle"></div>
+              </div>
+            </div>
+
+            <!-- Cake Tier 1 (Top) -->
+            <div class="cake-tier tier-top">
+              <div class="web-frosting-lines"></div>
+              <div class="frosting-drips">
+                <span></span><span></span><span></span><span></span><span></span>
+              </div>
+              <div class="cake-spider-badge">🕷️</div>
+            </div>
+
+            <!-- Cake Tier 2 (Middle) -->
+            <div class="cake-tier tier-middle">
+              <div class="frosting-stripes"></div>
+              <div class="frosting-drips">
+                <span></span><span></span><span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+
+            <!-- Cake Tier 3 (Base) -->
+            <div class="cake-tier tier-base">
+              <div class="cake-message-text">HAPPY BIRTHDAY!</div>
+            </div>
+
+            <!-- Cake Plate -->
+            <div class="cake-plate"></div>
+          </div>
+
+          <!-- Interactive Action Buttons -->
+          <div class="cake-controls">
+            <button id="blowCandlesBtn" class="spidey-primary-btn blow-btn">
+              <span class="btn-text">💨 BLOW OUT THE CANDLES!</span>
+              <span class="btn-subtext">OR TAP DIRECTLY ON THE FLAMES</span>
+            </button>
+            <button id="relightCandlesBtn" class="spidey-secondary-btn relight-btn hidden">
+              <span>🔥 RELIGHT CANDLES & WISH AGAIN</span>
+            </button>
+          </div>
+
+          <!-- Celebration Wish Banner (Appears after blow out) -->
+          <div id="celebrationBanner" class="celebration-banner hidden">
+            <div class="banner-comic-burst">💥 POW! WISH GRANTED! 💥</div>
+            <h3>MAY ALL YOUR HEROIC DREAMS COME TRUE!</h3>
+            <p>Every superhero deserves endless happiness, and today is all about YOU.</p>
+            <button id="blastMoreConfettiBtn" class="spidey-primary-btn btn-small">
+              <span>🎉 SHOOT MORE SPIDER CONFETTI!</span>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="spidey-footer">
+      <div class="container footer-content">
+        <div class="footer-spider-icon">🕸️</div>
+        <p class="footer-text">
+          Handcrafted with 100% Love, Web-Fluid, and Spider-Sense for My Favorite Superhero.
+        </p>
+        <p class="footer-sub">
+          Spider-Man Birthday Edition • Made Just for You
+        </p>
+        <div class="footer-web-bottom"></div>
+      </div>
+    </footer>
+
+  </main>
+
+  <!-- PHOTO MODAL LIGHTBOX -->
+  <dialog id="photoDialog" class="comic-dialog">
+    <div class="dialog-inner">
+      <button id="closeDialogBtn" class="dialog-close-btn" aria-label="Close modal">✕</button>
+      <div class="dialog-comic-header">
+        <span class="dialog-badge">CLASSIFIED MEMORY</span>
+        <h3 id="dialogTitle" class="dialog-heading">Memory Title</h3>
+      </div>
+      <div class="dialog-img-wrap">
+        <img id="dialogImg" src="" alt="Expanded memory" />
+      </div>
+      <div class="dialog-caption-box">
+        <p id="dialogCaption" class="dialog-desc">Caption goes here...</p>
+        <div class="dialog-footer-tag">
+          <span id="dialogDate">Earth-616</span>
+          <span class="dialog-heart">❤️ 100% UNCONDITIONAL</span>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- JAVASCRIPT -->
+  <script src="script.js"></script>
+</body>
+</html>
